@@ -23,7 +23,7 @@ class GitDirectory
   end
 
   def initialize(path)
-    @path = Pathname.new(path).expand_path
+    @path = Pathname.new(path).realpath
   end
 
   def git(*args)
