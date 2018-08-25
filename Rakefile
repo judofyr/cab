@@ -5,12 +5,10 @@ if File.exists?('.git') && !ENV['CAB_VERSION']
   end
 end
 
-require 'rake/testtask'
-
 task :default => [:test]
 
-ENV["COVERAGE"] = "1"
-
-Rake::TestTask.new do
+task :test do
+  sh 'ruby', 'test/run1.rb'
+  puts "*** All tests passed"
 end
 
