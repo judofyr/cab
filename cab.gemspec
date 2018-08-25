@@ -11,8 +11,9 @@ Gem::Specification.new do |s|
   s.summary       = 'Lightweight code reloader'
 
   s.require_paths = %w(lib)
-  s.files         = Dir["lib/**/*.rb"]
+  s.files         = Dir["lib/**/*.rb"] + Dir["bin/*"]
   s.license       = '0BSD'
+  s.executables << 'cabup'
 
   s.required_ruby_version = '>= 2.1'
 end
