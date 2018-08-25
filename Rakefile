@@ -9,6 +9,7 @@ task :default => [:test]
 
 task :test do
   sh 'ruby', 'test/run1.rb'
+  sh 'ruby', 'test/run2.rb'
   puts "*** All tests passed"
 end
 

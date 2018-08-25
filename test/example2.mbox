@@ -1,0 +1,112 @@
+From 13a4efb5e4486da88b0c1369d4e2431fda3bf873 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sat, 25 Aug 2018 13:18:32 +0200
+Subject: [PATCH 1/4] A::Value == 1
+
+---
+ main.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100644 main.rb
+
+diff --git a/main.rb b/main.rb
+new file mode 100644
+index 0000000..871c784
+--- /dev/null
++++ b/main.rb
+@@ -0,0 +1,4 @@
++class A
++  Value = 1
++end
++
+-- 
+2.17.0
+
+
+From 326b7bb1a02415376540f76ee8c9c2f297f61809 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sat, 25 Aug 2018 13:19:26 +0200
+Subject: [PATCH 2/4] A::Value == B::Value == 2
+
+---
+ b.rb    | 4 ++++
+ main.rb | 4 +++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+ create mode 100644 b.rb
+
+diff --git a/b.rb b/b.rb
+new file mode 100644
+index 0000000..b404a6c
+--- /dev/null
++++ b/b.rb
+@@ -0,0 +1,4 @@
++class B
++  Value = 2
++end
++
+diff --git a/main.rb b/main.rb
+index 871c784..a823710 100644
+--- a/main.rb
++++ b/main.rb
+@@ -1,4 +1,6 @@
++require_relative 'b'
++
+ class A
+-  Value = 1
++  Value = B::Value
+ end
+ 
+-- 
+2.17.0
+
+
+From 65dffb5c5603f3df968942cb438e506f8a1fa08b Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sat, 25 Aug 2018 13:19:43 +0200
+Subject: [PATCH 3/4] B::Value == 3
+
+---
+ b.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/b.rb b/b.rb
+index b404a6c..22c13e6 100644
+--- a/b.rb
++++ b/b.rb
+@@ -1,4 +1,4 @@
+ class B
+-  Value = 2
++  Value = 3
+ end
+ 
+-- 
+2.17.0
+
+
+From 17964ff1cb7b7ae14e7baee097c994dc7359d4e9 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sat, 25 Aug 2018 13:20:17 +0200
+Subject: [PATCH 4/4] Rename file
+
+---
+ b.rb => c.rb | 0
+ main.rb      | 2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename b.rb => c.rb (100%)
+
+diff --git a/b.rb b/c.rb
+similarity index 100%
+rename from b.rb
+rename to c.rb
+diff --git a/main.rb b/main.rb
+index a823710..cff312f 100644
+--- a/main.rb
++++ b/main.rb
+@@ -1,4 +1,4 @@
+-require_relative 'b'
++require_relative 'c'
+ 
+ class A
+   Value = B::Value
+-- 
+2.17.0
+
