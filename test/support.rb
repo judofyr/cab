@@ -47,7 +47,7 @@ class GitDirectory
   end
 
   def import_mbox(path)
-    git("am", path.to_s)
+    git("am", "--quiet", "--whitespace=nowarn", path.to_s)
   end
 
   def commits
