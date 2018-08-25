@@ -56,12 +56,23 @@ class GitDirectory
 
   def checkout(sha1)
     git("checkout", "--quiet", sha1)
-    changed_files = git("diff-tree", "--no-commit-id", "--name-only", sha1).split
+    has_parent = !git("show", "-s", "--format=%p", sha1).strip.empty?
+
+    changed_files = 
+      if has_parent
+        git("diff-tree", "--no-commit-id", "--name-only", sha1).split
+      else
+        git("ls-tree", "-r", "--name-only", sha1).split
+      end
+
     timestamp = git("show", "-s", "--format=%at", sha1).to_i
+
     mtime = Time.at(timestamp)
     changed_files.each do |file|
       path = (@path + file).to_s
-      File.utime(File.atime(path), mtime, path)
+      if File.exists?(path)
+        File.utime(File.atime(path), mtime, path)
+      end
     end
   end
 
