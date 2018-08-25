@@ -31,9 +31,11 @@ class Cab
     end
 
     to_reload.each(&:unload)
-    to_reload.each(&:load)
 
-    @trace.enable(&@block)
+    @trace.enable do
+      to_reload.each(&:load)
+      @block.call
+    end
   end
 
   private
