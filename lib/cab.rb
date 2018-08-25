@@ -9,6 +9,13 @@ class Cab
     @trace = TracePoint.new(:line, :end) do |tp|
       if handle_path?(tp.path)
         file = lookup_or_insert_file(tp.path)
+        file.mark_loaded
+
+        tp.binding.eval('caller_locations').each do |frame|
+          if frame.path != tp.path && requirerer = lookup_file(frame.path)
+            file.included_by(requirerer)
+          end
+        end
 
         if tp.event == :end
           file.add_constant(tp.self)
@@ -23,17 +30,25 @@ class Cab
   end
 
   def run
-    to_reload = []
+    to_unload = []
+    to_delete = []
 
     @files.each_value do |file|
-      did_change = file.tick
-      to_reload << file if did_change
+      case file.tick
+      when :deleted
+        to_unload << file
+        to_delete << file.path
+      when :changed
+        to_unload << file
+      end
     end
 
-    to_reload.each(&:unload)
+    to_unload.each(&:unload)
+    to_delete.each do |path|
+      remove_file(path)
+    end
 
     @trace.enable do
-      to_reload.each(&:load)
       @block.call
     end
   end
@@ -42,6 +57,14 @@ class Cab
 
   def lookup_or_insert_file(path)
     @files[path] ||= TrackedFile.new(path)
+  end
+
+  def lookup_file(path)
+    @files[path]
+  end
+
+  def remove_file(path)
+    @files.delete(path)
   end
 
   def handle_path?(path)
@@ -54,18 +77,37 @@ class Cab
     def initialize(path)
       @path = path
       @constants = Set.new
+      @parents = Set.new
       @mtime = File.mtime(path)
+      @is_unloaded = false
+    end
+
+    def mark_loaded
+      @is_unloaded = false
     end
 
     def add_constant(const)
       @constants << const
     end
 
+    def included_by(file)
+      @parents << file
+    end
+
     # Returns `true` if the file has changed
     def tick
       old_mtime = @mtime
-      @mtime = File.mtime(@path)
-      return @mtime != old_mtime
+      begin
+        @mtime = File.mtime(@path)
+      rescue Errno::ENOENT
+        :deleted
+      else
+        if @mtime != old_mtime
+          :changed
+        else
+          :unchanged
+        end
+      end
     end
 
     def load
@@ -73,12 +115,20 @@ class Cab
     end
 
     def unload
+      return if @is_unloaded
+      @is_unloaded = true
+
       @constants.each do |const|
         unload_constant(const)
       end
       @constants.clear
 
       unload_require
+
+      @parents.each do |parent|
+        parent.unload
+      end
+      @parents.clear
     end
 
     def unload_constant(const)
