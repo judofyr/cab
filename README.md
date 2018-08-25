@@ -1,18 +1,15 @@
-# Cab: Lightweight code reloader for Ruby
+# Cab: Lightweight code reloader for Ruby/Rack
 
-```ruby
-cab = Cab.new(dir: __dir__) do
-  require_relative 'app'
-  p App.run
-end
+Replace `rackup` with `cabup` and files are automatically reloaded for you:
 
-# This runs the block and tracks all required file:
-cab.run
-
-# Now modify app.rb (or one if its included files)
-
-# This will now be executed with the new files loaded:
-cab.run
+```
+$ cabup
+Puma starting in single mode...
+* Version 3.11.4 (ruby 2.4.1-p111), codename: Love Song
+* Min threads: 0, max threads: 16
+* Environment: development
+* Listening on tcp://localhost:9292
+Use Ctrl-C to stop
 ```
 
 ##### Table of Contents
@@ -25,6 +22,7 @@ cab.run
 
 ## Functionality
 
+- `cabup`: Command-line tool which replaces `rackup`
 - Made for applications that use explicit `require`/`require_relative`
 - Tracks all required files
 - Tracks all defined classes/modules
@@ -32,7 +30,7 @@ cab.run
   reloads the files
 - All defined classes/modules are un-defined before the file is loaded again
 - Does not track autoloaded files
-- Simple: 100 lines of code, no dependencies
+- Simple: 150 lines of code, no dependencies
 - Cross platform: Uses only plain Ruby features
 
 ## Public API
