@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require_relative '../lib/cab'
+
+require 'rack'
+
+class CabServer < Rack::Server
+  def directory
+    File.dirname(options[:config])
+  end
+
+  def app
+    @app ||= Cab.rack(dir: directory) do
+      build_app_and_options_from_config
+    end
+  end
+end
+
+CabServer.start
+
