@@ -1,7 +1,7 @@
 require_relative 'support'
 require 'cab'
 
-GitDirectory.with_mbox(__dir__ + '/example1.mbox') do |walker|
+GitDirectory.with_mbox(File.expand_path('example1.mbox', __dir__)) do |walker|
   cab = Cab.new(dir: walker.path.to_s) do
     require(walker.path + 'main.rb')
     defined?(::A) ? "A#{::A::Value}" : "B#{::B::Value}"
