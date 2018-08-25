@@ -3,7 +3,7 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name          = 'cab'
-  s.version       = ENV['IPPON_VERSION'] || "1.master"
+  s.version       = ENV['CAB_VERSION'] || "1.master"
   s.date          = Date.today.to_s
 
   s.authors       = ['Magnus Holm']
