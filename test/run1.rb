@@ -1,5 +1,4 @@
-require_relative 'support'
-require 'cab'
+require_relative 'helper'
 
 GitDirectory.with_mbox(File.expand_path('example1.mbox', __dir__)) do |walker|
   cab = Cab.new(dir: walker.path.to_s) do
