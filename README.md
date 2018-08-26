@@ -155,8 +155,7 @@ Cab is currently not yet released.
 ## Other alternatives
 
 The Roda framework has a summary of various code reloading libraries and
-techniques. See code reloading libraries and techniques: ["Code
-Reloading"][roda-code-reloading].
+techniques: ["Code Reloading"][roda-code-reloading].
 
 [roda-code-reloading]: http://roda.jeremyevans.net/rdoc/files/README_rdoc.html#label-Code+Reloading
 
