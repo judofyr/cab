@@ -113,10 +113,6 @@ class Cab
       end
     end
 
-    def load
-      require(@path)
-    end
-
     def unload
       return if @is_unloaded
       @is_unloaded = true
