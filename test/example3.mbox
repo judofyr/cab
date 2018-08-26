@@ -1,0 +1,97 @@
+From 4fe60f918b69085aec15013d103d77cd9b6f5f52 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sun, 26 Aug 2018 11:25:59 +0200
+Subject: [PATCH 1/4] A::Value == 1
+
+---
+ main.rb | 4 ++++
+ 1 file changed, 4 insertions(+)
+ create mode 100644 main.rb
+
+diff --git a/main.rb b/main.rb
+new file mode 100644
+index 0000000..871c784
+--- /dev/null
++++ b/main.rb
+@@ -0,0 +1,4 @@
++class A
++  Value = 1
++end
++
+-- 
+2.17.0
+
+
+From 8509b53d02b88c6cf678b04b0bf5abfdf9e5f255 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sun, 26 Aug 2018 11:26:11 +0200
+Subject: [PATCH 2/4] A::Value == 2
+
+---
+ main.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/main.rb b/main.rb
+index 871c784..998d0ca 100644
+--- a/main.rb
++++ b/main.rb
+@@ -1,4 +1,4 @@
+ class A
+-  Value = 1
++  Value = 2
+ end
+ 
+-- 
+2.17.0
+
+
+From 79c43436012e0e269f0574b23cc53ea9f53a7ca8 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sun, 26 Aug 2018 11:26:44 +0200
+Subject: [PATCH 3/4] A::Value == 3 + weird name
+
+---
+ main.rb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/main.rb b/main.rb
+index 998d0ca..f5334b3 100644
+--- a/main.rb
++++ b/main.rb
+@@ -1,4 +1,8 @@
+ class A
+-  Value = 2
++  Value = 3
++
++  def self.name
++    "wat"
++  end
+ end
+ 
+-- 
+2.17.0
+
+
+From df5d967c54bc681b4fb1cf7b95cc46368577b538 Mon Sep 17 00:00:00 2001
+From: Magnus Holm <judofyr@gmail.com>
+Date: Sun, 26 Aug 2018 11:27:00 +0200
+Subject: [PATCH 4/4] A::Value == 4
+
+---
+ main.rb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/main.rb b/main.rb
+index f5334b3..489bf06 100644
+--- a/main.rb
++++ b/main.rb
+@@ -1,5 +1,5 @@
+ class A
+-  Value = 3
++  Value = 4
+ 
+   def self.name
+     "wat"
+-- 
+2.17.0
+

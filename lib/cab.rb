@@ -131,8 +131,11 @@ class Cab
       @parents.clear
     end
 
+    CONST_NAME = Module.instance_method(:name)
+
     def unload_constant(const)
-      parts = const.name.split('::')
+      name = CONST_NAME.bind(const).call
+      parts = name.split('::')
       last_name = parts.pop
 
       parent_scope = parts.reduce(Object) do |scope, name|
