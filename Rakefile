@@ -17,6 +17,7 @@ task "test:suite" do
   sh 'ruby', 'test/run1.rb'
   sh 'ruby', 'test/run2.rb'
   sh 'ruby', 'test/run3.rb'
+  sh 'ruby', 'test/run4.rb'
   puts "*** All tests passed"
 end
 
