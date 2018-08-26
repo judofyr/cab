@@ -15,6 +15,7 @@ Use Ctrl-C to stop
 ##### Table of Contents
 
 - [Functionality](#functionality)
+- [Usage](#usage)
 - [Public API](#public-api)
 - [Versioning](#versioning)
 - [Other alternatives](#other-alternatives)
@@ -32,6 +33,72 @@ Use Ctrl-C to stop
 - Does not track autoloaded files
 - Simple: 150 lines of code, no dependencies
 - Cross platform: Uses only plain Ruby features
+
+## Usage
+
+Reloading Ruby projects is rather complicated since any file can execute
+arbitary code, and before you can load the new, modified file, Cab needs to
+unload the previous file. Cab doesn't aim to magically support all complicated
+use cases, but instead requires you to write Ruby files which are reloadable.
+This shouldn't be a big problem since files that are easy to reload turns out
+to be files that are easy to reason about.
+
+As long as you follow these rules you should be fine:
+
+- Rule 1: Files that *only* define their own classes/modules will always work.
+- Rule 2: Files should `require` (or `require_relative`) their dependencies.
+- Rule 3: Files that execute code when they load must be idempotent (see below).
+- Rule 4: Not everything can be reloaded and changes in some files (e.g.
+  initializers) might require you to restart the server. That's okay. Cab
+  strives to be *useful*, not perfect.
+
+### Dealing with idempotency
+
+If you're trying out Cab with Sinatra you will quickly discover that reloading
+doesn't appear to work:
+
+```ruby
+require 'sintra'
+
+get '/' do
+  'Hello world!'
+end
+```
+
+Here's what happens:
+
+- You start the application with `cabup`
+- The application is loaded and one route is defined
+- You modify the application
+- Cab tries to unload the file, but there's nothing to do since there are no
+  classes/modules
+- Cab then loads the file again
+- The Sintra application now has *two* routes defined, but the first one will
+  always shadow the later one
+
+There are two ways to handle this. Solution 1 is to start the file with
+cleaning up from the previous time it was loaded:
+
+```ruby
+require 'sinatra'
+Sinatra::Application.reset!
+
+get '/' do
+  'Hello world!'
+end
+```
+
+Solution 2 (the preferred way) is to use a class instead:
+
+```ruby
+require 'sinatra'
+
+class MyApp < Sinatra::Application
+  get '/' do
+    'Hello world!'
+  end
+end
+```
 
 ## Public API
 
