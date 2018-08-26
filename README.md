@@ -1,5 +1,8 @@
 # Cab: Lightweight code reloader for Ruby/Rack
 
+[![Travis](https://img.shields.io/travis/com/judofyr/cab/master.svg)](https://travis-ci.com/judofyr/cab)
+
+
 Replace `rackup` with `cabup` and files are automatically reloaded for you:
 
 ```
