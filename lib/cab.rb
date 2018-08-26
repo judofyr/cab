@@ -1,4 +1,4 @@
-require 'set'
+require "set"
 
 class Cab
   CONST_NAME = Module.instance_method(:name)
@@ -14,7 +14,7 @@ class Cab
         file = lookup_or_insert_file(tp.path)
         file.mark_loaded
 
-        tp.binding.eval('::Cab::CALLER_LOCATIONS.call').each do |frame|
+        tp.binding.eval("::Cab::CALLER_LOCATIONS.call").each do |frame|
           if frame.path != tp.path && requirerer = lookup_file(frame.path)
             file.included_by(requirerer)
           end
@@ -136,7 +136,7 @@ class Cab
 
     def unload_constant(const)
       name = CONST_NAME.bind(const).call
-      parts = name.split('::')
+      parts = name.split("::")
       last_name = parts.pop
 
       parent_scope = parts.reduce(Object) do |scope, name|
