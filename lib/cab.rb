@@ -1,6 +1,9 @@
 require 'set'
 
 class Cab
+  CONST_NAME = Module.instance_method(:name)
+  CALLER_LOCATIONS = method(:caller_locations)
+
   def initialize(dir:, &blk)
     @block = blk
     @dir = dir
@@ -11,7 +14,7 @@ class Cab
         file = lookup_or_insert_file(tp.path)
         file.mark_loaded
 
-        tp.binding.eval('caller_locations').each do |frame|
+        tp.binding.eval('::Cab::CALLER_LOCATIONS.call').each do |frame|
           if frame.path != tp.path && requirerer = lookup_file(frame.path)
             file.included_by(requirerer)
           end
@@ -130,8 +133,6 @@ class Cab
       end
       @parents.clear
     end
-
-    CONST_NAME = Module.instance_method(:name)
 
     def unload_constant(const)
       name = CONST_NAME.bind(const).call
