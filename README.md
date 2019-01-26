@@ -76,7 +76,7 @@ Here's what happens:
 - Cab tries to unload the file, but there's nothing to do since there are no
   classes/modules
 - Cab then loads the file again
-- The Sintra application now has *two* routes defined, but the first one will
+- The Sinatra application now has *two* routes defined, but the first one will
   always shadow the later one
 
 There are two ways to handle this. Solution 1 is to start the file with
